@@ -56,7 +56,13 @@ Provide concise, actionable, supportive feedback (8–12 sentences) covering:
     });
 
     const data = await response.json();
-    const feedback = data.choices[0].message.content;
+    if (!data.choices) {
+  console.error("OpenAI error:", data);
+  return res.json({ feedback: "Error generating AI feedback." });
+}
+
+const feedback = data.choices[0].message.content;
+
 
     res.json({ feedback });
 
